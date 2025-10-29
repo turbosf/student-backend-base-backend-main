@@ -1,17 +1,42 @@
 const { trips } = require('../models/Trip');
 
-// Retrieve all trips
-const retrieveAllTrips = (req, res) => {
+//create new trip
+const createTrip = (req, res) => {
+  const {
+    destinationName, location, continent, language, description,
+    flightCost = 0, accomodationCost = 0, mealCost = 0, visaCost = 0,
+    transportationCOST = 0, currencyCode = 'N/A'
+  } = req.body;
+
+  if  (!destinationName || !location || !continent || !language || !description) 
+    {
+    return res.status(400).json({
+      message:'Missing required fields: destinationName, location, continent, language and description'
+    })
+  };
+}
+
+const query = `
+  INSERT INTO TRIP (
+    DESTINATIONAME, LOVATION, CONTINENT, LANGUAGE, DESCRIPTION,
+    FLIGHTCOST, ACCOMMODATIONCOST, MEALCOST, VISACOST, TRANSPORTATIONCOST, CURRENCYCODE
+  )
+  VALUES (${destinationName}','${location}','${continent}','${language}','${description}',
+  ${flightcost},${accomodationcost},${mealcost},${visaCost},${transportationcost}
+  ,${currencyCode}'
+  )
+`;
+// Retrieve all trips from array
+/*const retrieveAllTrips = (req, res) => {
   const allTrips = trips;
   res.status(200).json({
     status: 'success',
     message: 'Trips retrieved successfully',
     results: allTrips.length,
     data: allTrips,
-  });
-};
+  });*/
 
-// Create a new trip
+/*// Create a new trip
 const createTrip = (req, res) => {
   const {
     destinationName,
@@ -62,8 +87,24 @@ const createTrip = (req, res) => {
     message: 'Trip created successfully',
     data: newTrip,
   });
-};
+};*/
 
+
+//Retrieve all trips
+const retrieveAllTrips = (req,res) => {
+  const query = `SELECT * FROM TRIP`;
+  
+  db.all(query,(err,rows) =>{
+    if (err) {
+      console.log(err);
+      return res.status(500).json({message: `Error retriving trips`});
+    }
+    return res.status(200).json({
+      message: `Trips retrived successfully`,
+      data: rows
+    });
+  });
+};
 
 module.exports = {
   createTrip,
