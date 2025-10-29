@@ -2,7 +2,7 @@ const sqlite = require('sqlite3');
 const db = new sqlite.Database('travel.db');
 
 // New Trip Table
-const createTriptable = `CREATE TABLE IF NOT EXISTS (
+const createTriptable = `CREATE TABLE IF NOT EXISTS TRIP (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     DESTIONATIONAME TEXT NOT NULL,
     LOCATION TEXT NOT NULL,
